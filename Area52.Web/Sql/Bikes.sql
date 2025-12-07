@@ -1,0 +1,6 @@
+CREATE TABLE Bikes (
+    BikeId INT IDENTITY(1,1) PRIMARY KEY,
+    Type NVARCHAR(50) NOT NULL,
+    DayPrice DECIMAL(10,2) NOT NULL,
+    PurchaseDate DATE NOT NULL
+);

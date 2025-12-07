@@ -1,0 +1,21 @@
+@model Area52.Web.Models.Bike
+
+<h1>Delete Bike</h1>
+
+<p>Are you sure you want to delete this bike?</p>
+
+<ul>
+    <li><strong>Id:</strong> @Model.BikeId</li>
+    <li><strong>Type:</strong> @Model.Type</li>
+    <li><strong>Day Price:</strong> €@Model.DayPrice</li>
+    <li><strong>Purchase Date:</strong> @Model.PurchaseDate.ToShortDateString()</li>
+</ul>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="BikeId" />
+    <button type="submit">Yes, delete</button>
+</form>
+
+<p>
+    <a asp-action="Index">Cancel</a>
+</p>

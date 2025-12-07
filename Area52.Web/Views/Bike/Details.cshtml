@@ -1,0 +1,13 @@
+@model Area52.Web.Models.Bike
+
+<h1>Bike Details</h1>
+
+<p><strong>Id:</strong> @Model.BikeId</p>
+<p><strong>Type:</strong> @Model.Type</p>
+<p><strong>Day Price:</strong> €@Model.DayPrice</p>
+<p><strong>Purchase Date:</strong> @Model.PurchaseDate.ToShortDateString()</p>
+
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.BikeId">Edit</a> |
+    <a asp-action="Index">Back to list</a>
+</p>

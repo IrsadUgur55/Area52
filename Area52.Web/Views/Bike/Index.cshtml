@@ -1,0 +1,35 @@
+@model IEnumerable<Area52.Web.Models.Bike>
+
+<h1>Available Bikes</h1>
+
+<p>
+    <a asp-action="Create">Create new bike</a>
+</p>
+
+<table style="width:100%; border-collapse: collapse; margin-top:20px;">
+    <thead>
+        <tr style="background-color:#f2f2f2;">
+            <th style="padding:8px; border:1px solid #ddd;">Id</th>
+            <th style="padding:8px; border:1px solid #ddd;">Type</th>
+            <th style="padding:8px; border:1px solid #ddd;">Day Price</th>
+            <th style="padding:8px; border:1px solid #ddd;">Purchase Date</th>
+            <th style="padding:8px; border:1px solid #ddd;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var bike in Model)
+    {
+        <tr>
+            <td style="padding:8px; border:1px solid #ddd;">@bike.BikeId</td>
+            <td style="padding:8px; border:1px solid #ddd;">@bike.Type</td>
+            <td style="padding:8px; border:1px solid #ddd;">€@bike.DayPrice</td>
+            <td style="padding:8px; border:1px solid #ddd;">@bike.PurchaseDate.ToShortDateString()</td>
+            <td style="padding:8px; border:1px solid #ddd;">
+                <a asp-action="Details" asp-route-id="@bike.BikeId">Details</a> |
+                <a asp-action="Edit" asp-route-id="@bike.BikeId">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@bike.BikeId">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
