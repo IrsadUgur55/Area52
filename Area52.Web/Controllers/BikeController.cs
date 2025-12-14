@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Area52.Web.Interfaces;
-using Area52.Web.Models;
+using Area52.Domain.Interfaces;
+using Area52.Domain.Models;
 
 namespace Area52.Web.Controllers;
 

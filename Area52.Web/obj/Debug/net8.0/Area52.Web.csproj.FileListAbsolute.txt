@@ -76,3 +76,8 @@
 /Users/ibrahimirsadugur/Area52/Area52.Web/bin/Debug/net8.0/runtimes/win/lib/net8.0/System.Diagnostics.EventLog.dll
 /Users/ibrahimirsadugur/Area52/Area52.Web/bin/Debug/net8.0/runtimes/win/lib/net8.0/System.Security.Cryptography.Pkcs.dll
 /Users/ibrahimirsadugur/Area52/Area52.Web/obj/Debug/net8.0/Area52.Web.csproj.Up2Date
+/Users/ibrahimirsadugur/Area52/Area52.Web/bin/Debug/net8.0/Area52.Data.dll
+/Users/ibrahimirsadugur/Area52/Area52.Web/bin/Debug/net8.0/Area52.Domain.dll
+/Users/ibrahimirsadugur/Area52/Area52.Web/bin/Debug/net8.0/Area52.Domain.pdb
+/Users/ibrahimirsadugur/Area52/Area52.Web/bin/Debug/net8.0/Area52.Data.pdb
+/Users/ibrahimirsadugur/Area52/Area52.Web/obj/Debug/net8.0/Area52.Web.sourcelink.json

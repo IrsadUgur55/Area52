@@ -609,6 +609,33 @@
         "build": {
           "buildTransitive/net6.0/System.Text.Json.targets": {}
         }
+      },
+      "Area52.Data/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Area52.Domain": "1.0.0",
+          "Microsoft.Data.SqlClient": "6.1.3"
+        },
+        "compile": {
+          "bin/placeholder/Area52.Data.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Area52.Data.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      },
+      "Area52.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/Area52.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Area52.Domain.dll": {}
+        }
       }
     }
   },
@@ -1590,10 +1617,22 @@
         "system.text.json.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "Area52.Data/1.0.0": {
+      "type": "project",
+      "path": "../Area52.Data/Area52.Data.csproj",
+      "msbuildProject": "../Area52.Data/Area52.Data.csproj"
+    },
+    "Area52.Domain/1.0.0": {
+      "type": "project",
+      "path": "../Area52.Domain/Area52.Domain.csproj",
+      "msbuildProject": "../Area52.Domain/Area52.Domain.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "Area52.Data >= 1.0.0",
+      "Area52.Domain >= 1.0.0",
       "Microsoft.Data.SqlClient >= 6.1.3"
     ]
   },
@@ -1621,7 +1660,14 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "/Users/ibrahimirsadugur/Area52/Area52.Data/Area52.Data.csproj": {
+              "projectPath": "/Users/ibrahimirsadugur/Area52/Area52.Data/Area52.Data.csproj"
+            },
+            "/Users/ibrahimirsadugur/Area52/Area52.Domain/Area52.Domain.csproj": {
+              "projectPath": "/Users/ibrahimirsadugur/Area52/Area52.Domain/Area52.Domain.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

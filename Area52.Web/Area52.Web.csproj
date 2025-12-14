@@ -10,4 +10,9 @@
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Area52.Domain\Area52.Domain.csproj" />
+    <ProjectReference Include="..\Area52.Data\Area52.Data.csproj" />
+  </ItemGroup>
+
 </Project>
