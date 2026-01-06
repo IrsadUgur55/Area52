@@ -1,0 +1,55 @@
+@model IEnumerable<Bike>
+
+<h1>Create Reservation</h1>
+
+<p>Kies een fiets en reserveer voor een datum.</p>
+
+<table style="width:100%; border-collapse: collapse; margin-top:20px;">
+    <thead>
+        <tr style="background-color:#f2f2f2;">
+            <th style="padding:8px; border:1px solid #ddd;">Id</th>
+            <th style="padding:8px; border:1px solid #ddd;">Type</th>
+            <th style="padding:8px; border:1px solid #ddd;">Day Price</th>
+            <th style="padding:8px; border:1px solid #ddd;">Reserve</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var bike in Model)
+    {
+        <tr>
+            <td style="padding:8px; border:1px solid #ddd;">@bike.BikeId</td>
+            <td style="padding:8px; border:1px solid #ddd;">@bike.Type</td>
+            <td style="padding:8px; border:1px solid #ddd;">€@bike.DayPrice</td>
+            <td style="padding:8px; border:1px solid #ddd;">
+                <form asp-action="Create" method="post" style="display:flex; gap:10px; align-items:center;">
+                @Html.AntiForgeryToken()
+                
+                    <input type="hidden" name="bikeId" value="@bike.BikeId" />
+
+                    <label>Start:</label>
+                    <input type="date" name="startDate" required />
+
+                    <label>Days:</label>
+                    <input type="number" name="days" value="1" min="1" required style="width:80px;" />
+
+                    <label style="display:flex; gap:6px; align-items:center;">
+                    <input type="checkbox" name="optionKeys" value="DamageInsurance" />
+                     Damage insurance (2%)
+                    </label>
+
+                    <label style="display:flex; gap:6px; align-items:center;">
+                    <input type="checkbox" name="optionKeys" value="Assistance" />
+                     Assistance (€5)
+                    </label>
+
+                    <button type="submit">Reserve</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<p>
+    <a asp-action="Index" asp-controller="Bike">Back to bikes</a>
+</p>

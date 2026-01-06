@@ -3,6 +3,12 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">Welcome to Area52</h1>
+    <div style="display:flex; gap:12px; margin-top:20px;">
+    <a class="btn btn-primary" asp-controller="Bike" asp-action="Create">Create bike</a>
+    <a class="btn btn-success" asp-controller="Reservation" asp-action="Create">Create reservation</a>
+    <a class="btn btn-secondary" asp-controller="Reservation" asp-action="Index">View reservations</a>
+</div>
+
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>

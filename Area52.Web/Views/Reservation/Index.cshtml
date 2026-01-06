@@ -1,0 +1,40 @@
+@model IEnumerable<Area52.Web.Models.ReservationOverviewItem>
+
+<h1>Reservations</h1>
+
+<p>
+    <a asp-action="Create">Create reservation</a> |
+    <a asp-controller="Bike" asp-action="Index">Back to bikes</a>
+</p>
+
+<table style="width:100%; border-collapse: collapse; margin-top:20px;">
+    <thead>
+        <tr style="background-color:#f2f2f2;">
+            <th style="padding:8px; border:1px solid #ddd;">Id</th>
+            <th style="padding:8px; border:1px solid #ddd;">Bike</th>
+            <th style="padding:8px; border:1px solid #ddd;">Start</th>
+            <th style="padding:8px; border:1px solid #ddd;">Days</th>
+            <th style="padding:8px; border:1px solid #ddd;">Options</th>
+            <th style="padding:8px; border:1px solid #ddd;">Total</th>
+            <th style="padding:8px; border:1px solid #ddd;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var r in Model)
+    {
+        <tr>
+            <td style="padding:8px; border:1px solid #ddd;">@r.ReservationId</td>
+            <td style="padding:8px; border:1px solid #ddd;">@r.BikeType (@r.BikeId)</td>
+            <td style="padding:8px; border:1px solid #ddd;">@r.StartDate.ToShortDateString()</td>
+            <td style="padding:8px; border:1px solid #ddd;">@r.Days</td>
+            <td style="padding:8px; border:1px solid #ddd;">@r.OptionsText</td>
+            <td style="padding:8px; border:1px solid #ddd;">€@r.TotalPrice</td>
+            
+            <td style="padding:8px; border:1px solid #ddd;">
+            <a asp-action="Details" asp-route-id="@r.ReservationId">Details</a>
+            </td>
+
+        </tr>
+    }
+    </tbody>
+</table>

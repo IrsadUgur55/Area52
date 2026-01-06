@@ -1,0 +1,38 @@
+@model BikeReservation
+
+<h1>Reservation Details</h1>
+
+<p><strong>Reservation Id:</strong> @Model.ReservationId</p>
+
+<h3>Bike</h3>
+<p><strong>Bike Id:</strong> @Model.BikeId</p>
+<p><strong>Bike Type:</strong> @ViewBag.BikeType</p>
+<p><strong>Day price:</strong> €@ViewBag.DayPrice</p>
+
+<h3>Period</h3>
+<p><strong>Start date:</strong> @Model.StartDate.ToShortDateString()</p>
+<p><strong>Days:</strong> @Model.Days</p>
+
+<h3>Options</h3>
+@if (Model.Options != null && Model.Options.Any())
+{
+    <ul>
+        @foreach (var opt in Model.Options)
+        {
+            <li>@opt.Name</li>
+        }
+    </ul>
+}
+else
+{
+    <p><em>No options selected.</em></p>
+}
+
+<h3>Total</h3>
+<p><strong>Total price:</strong> €@Model.TotalPrice</p>
+
+<p>
+    <a asp-action="Index">Back to reservations</a> |
+    <a asp-action="Create">Create reservation</a>
+    <a asp-action="Delete" asp-route-id="@Model.ReservationId">Delete</a> |
+</p>
