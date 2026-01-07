@@ -120,13 +120,15 @@ public IActionResult DeleteConfirmed(int id)
         {
             switch (key)
             {
-                case "DamageInsurance":
-                    options.Add(new DamageInsuranceOption());
-                    break;
-                case "Assistance":
-                    options.Add(new AssistanceOption());
-                    break;
+              case RentalOptionKeys.DamageInsurance:
+              options.Add(new DamageInsuranceOption());
+              break;
+
+              case RentalOptionKeys.Assistance:
+              options.Add(new AssistanceOption());
+              break;
             }
+
         }
 
         var total = _pricingService.CalculateTotal(bike, days, bikeCount: 1, options);
