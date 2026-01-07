@@ -1,5 +1,6 @@
 using Area52.Domain.Interfaces;
 using Area52.Domain.Models;
+using Area52.Data.Data;
 
 namespace Area52.Data.Repositories;
 
@@ -21,6 +22,12 @@ public class BikeRepository : IBikeRepository
         BatteryCapacityWh = 500
     }
 };
+    private readonly DatabaseContext _db;
+    public BikeRepository(DatabaseContext db)
+{
+    _db = db;
+}
+
 
     public IEnumerable<Bike> GetAll() => _bikes;
 

@@ -6,4 +6,9 @@ public class Bike
     public string Type { get; set; } = string.Empty;
     public decimal DayPrice { get; set; }
     public DateTime PurchaseDate { get; set; }
+    public virtual decimal GetDailySurcharge()
+{
+    return 0m;
+}
+
 }
