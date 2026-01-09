@@ -1,39 +1,48 @@
 @model IEnumerable<Area52.Web.Models.ReservationOverviewItem>
 
-<h1>Reservations</h1>
+<div class="page-header">
+    <h1 data-translate="res.title">📋 Mijn Reserveringen</h1>
+    <div class="page-actions">
+        <a class="btn btn-success" asp-action="Create" data-translate="res.btn.new">+ Nieuwe Reservering</a>
+        <a class="btn btn-secondary" asp-controller="Bike" asp-action="Index" data-translate="res.btn.bikes">🚲 Bekijk Fietsen</a>
+    </div>
+</div>
 
-<p>
-    <a asp-action="Create">Create reservation</a> |
-    <a asp-controller="Bike" asp-action="Index">Back to bikes</a>
-</p>
-
-<table style="width:100%; border-collapse: collapse; margin-top:20px;">
+<table class="table-modern">
     <thead>
-        <tr style="background-color:#f2f2f2;">
-            <th style="padding:8px; border:1px solid #ddd;">Id</th>
-            <th style="padding:8px; border:1px solid #ddd;">Bike</th>
-            <th style="padding:8px; border:1px solid #ddd;">Start</th>
-            <th style="padding:8px; border:1px solid #ddd;">Days</th>
-            <th style="padding:8px; border:1px solid #ddd;">Options</th>
-            <th style="padding:8px; border:1px solid #ddd;">Total</th>
-            <th style="padding:8px; border:1px solid #ddd;">Actions</th>
+        <tr>
+            <th data-translate="res.table.id">ID</th>
+            <th data-translate="res.table.bike">Fiets</th>
+            <th data-translate="res.table.start">Startdatum</th>
+            <th data-translate="res.table.duration">Duur</th>
+            <th data-translate="res.table.options">Opties</th>
+            <th data-translate="res.table.total">Totaalprijs</th>
+            <th data-translate="res.table.actions">Acties</th>
         </tr>
     </thead>
     <tbody>
     @foreach (var r in Model)
     {
         <tr>
-            <td style="padding:8px; border:1px solid #ddd;">@r.ReservationId</td>
-            <td style="padding:8px; border:1px solid #ddd;">@r.BikeType (@r.BikeId)</td>
-            <td style="padding:8px; border:1px solid #ddd;">@r.StartDate.ToShortDateString()</td>
-            <td style="padding:8px; border:1px solid #ddd;">@r.Days</td>
-            <td style="padding:8px; border:1px solid #ddd;">@r.OptionsText</td>
-            <td style="padding:8px; border:1px solid #ddd;">€@r.TotalPrice</td>
-            
-            <td style="padding:8px; border:1px solid #ddd;">
-            <a asp-action="Details" asp-route-id="@r.ReservationId">Details</a>
+            <td><span class="badge-modern badge-primary">#@r.ReservationId</span></td>
+            <td>
+                @if (r.BikeType == "ElectricBike")
+                {
+                    <span data-translate="bikes.type.electric">⚡ Elektrische Fiets</span>
+                }
+                else
+                {
+                    <span data-translate="bikes.type.city">🚲 Stadsfiets</span>
+                }
+                <small class="text-muted">(#@r.BikeId)</small>
             </td>
-
+            <td>@r.StartDate.ToShortDateString()</td>
+            <td><span class="badge-modern badge-success">@r.Days <span data-translate="res.days">dagen</span></span></td>
+            <td>@r.OptionsText</td>
+            <td><strong style="color: var(--accent-green);">€@r.TotalPrice</strong></td>
+            <td>
+                <a class="action-link" asp-action="Details" asp-route-id="@r.ReservationId" data-translate="res.action.details">Bekijk Details</a>
+            </td>
         </tr>
     }
     </tbody>

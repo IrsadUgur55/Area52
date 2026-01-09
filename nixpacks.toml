@@ -1,0 +1,16 @@
+# =============================================================================
+# NIXPACKS CONFIGURATIE - Railway Build Settings
+# =============================================================================
+# Dit bestand vertelt Railway hoe de .NET app te bouwen
+# =============================================================================
+
+[phases.setup]
+nixPkgs = ["dotnet-sdk_8"]
+
+[phases.build]
+cmds = [
+    "cd Area52.Web && dotnet publish -c Release -o ../out"
+]
+
+[start]
+cmd = "cd out && dotnet Area52.Web.dll --urls http://0.0.0.0:$PORT"

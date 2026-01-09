@@ -1,21 +1,43 @@
 @model Bike
 
-<h1>Delete Bike</h1>
+<div class="page-header">
+    <h1 data-translate="bikes.delete.title">🗑️ Fiets Verwijderen</h1>
+</div>
 
-<p>Are you sure you want to delete this bike?</p>
+<div class="card-modern" style="max-width: 500px; border-left: 4px solid #dc3545;">
+    <div style="background: rgba(220, 53, 69, 0.1); padding: 16px; border-radius: 8px; margin-bottom: 20px;">
+        <p style="margin: 0; color: #dc3545; font-weight: 500;" data-translate="bikes.delete.confirm">⚠️ Weet u zeker dat u deze fiets wilt verwijderen?</p>
+    </div>
 
-<ul>
-    <li><strong>Id:</strong> @Model.BikeId</li>
-    <li><strong>Type:</strong> @Model.Type</li>
-    <li><strong>Day Price:</strong> €@Model.DayPrice</li>
-    <li><strong>Purchase Date:</strong> @Model.PurchaseDate.ToShortDateString()</li>
-</ul>
+    <div style="display: grid; gap: 12px;">
+        <div>
+            <p class="text-muted mb-1" data-translate="bikes.table.id">ID</p>
+            <p><span class="badge-modern badge-primary">#@Model.BikeId</span></p>
+        </div>
+        <div>
+            <p class="text-muted mb-1" data-translate="bikes.table.type">Type</p>
+            <p>
+                @if (Model.Type == "ElectricBike")
+                {
+                    <span data-translate="bikes.type.electric">⚡ Elektrische Fiets</span>
+                }
+                else
+                {
+                    <span data-translate="bikes.type.city">🚲 Stadsfiets</span>
+                }
+            </p>
+        </div>
+        <div>
+            <p class="text-muted mb-1" data-translate="bikes.table.price">Dagprijs</p>
+            <p><strong>€@Model.DayPrice</strong></p>
+        </div>
+    </div>
 
-<form asp-action="Delete" method="post">
-    <input type="hidden" asp-for="BikeId" />
-    <button type="submit">Yes, delete</button>
-</form>
-
-<p>
-    <a asp-action="Index">Cancel</a>
-</p>
+    <form asp-action="Delete" method="post" style="margin-top: 24px;">
+        <input type="hidden" asp-for="BikeId" />
+        <div style="display: flex; gap: 12px;">
+            <button type="submit" class="btn btn-danger" data-translate="bikes.delete.yes">🗑️ Ja, Verwijderen</button>
+            <a asp-action="Index" class="btn btn-secondary" data-translate="bikes.delete.no">← Nee, Terug</a>
+        </div>
+    </form>
+</div>

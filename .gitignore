@@ -1,6 +1,12 @@
+# =============================================================================
+# AREA52 GITIGNORE
+# =============================================================================
+
 ## Build results
 bin/
 obj/
+**/bin/
+**/obj/
 
 ## Visual Studio
 .vs/
@@ -11,11 +17,17 @@ obj/
 
 ## Debug files
 *.pdb
-*.dll
 
 ## OS
 .DS_Store
 Thumbs.db
 
-**/bin/
-**/obj/
+# =============================================================================
+# SECURITY - NOOIT COMMITTEN!
+# =============================================================================
+# appsettings.json bevat database wachtwoorden!
+# Gebruik appsettings.template.json als voorbeeld
+**/appsettings.json
+!**/appsettings.template.json
+secrets.json
+

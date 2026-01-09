@@ -5,17 +5,22 @@ using Area52.Domain.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+// Add services to the container.
 builder.Services.AddControllersWithViews();
 
-
+// Register DatabaseContext
 builder.Services.AddSingleton<DatabaseContext>();
-builder.Services.AddScoped<IBikeRepository, BikeRepository>();
-builder.Services.AddScoped<IBikeReservationRepository, BikeReservationRepository>();
-builder.Services.AddScoped<IBikePricingService, BikePricingService>();
+
+// Register Repositories
+builder.Services.AddSingleton<IBikeRepository, BikeRepository>();
+builder.Services.AddSingleton<IBikeReservationRepository, BikeReservationRepository>();
+
+// Register Services
+builder.Services.AddSingleton<IBikePricingService, BikePricingService>();
 
 var app = builder.Build();
 
+// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
