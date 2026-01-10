@@ -517,6 +517,21 @@ const translations = {
         en: "Days"
     },
     
+    /* 
+     * OPTIES BADGES (voor weergave in reserveringsoverzicht)
+     * Deze worden gebruikt in de Index view om opties vertaald te tonen
+     */
+    "options.insurance": {
+        nl: "🛡️ Verzekering",
+        de: "🛡️ Versicherung",
+        en: "🛡️ Insurance"
+    },
+    "options.assistance": {
+        nl: "📞 Pechhulp",
+        de: "📞 Pannenhilfe",
+        en: "📞 Assistance"
+    },
+    
     /**
      * Optie: Schadeverzekering
      * Extra service die de klant kan toevoegen (+2% van totaal)

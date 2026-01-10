@@ -7,7 +7,9 @@ public class ElectricBike : Bike
 
     public ElectricBike()
     {
-        Type = "Electric";
+        // BELANGRIJK: Type moet exact "ElectricBike" zijn voor database mapping!
+        // De BikeRepository.MapToBike() methode checkt op deze exacte string.
+        Type = "ElectricBike";
     }
     public override decimal GetDailySurcharge()
 {
