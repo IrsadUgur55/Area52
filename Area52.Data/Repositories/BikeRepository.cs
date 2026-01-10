@@ -106,15 +106,20 @@ public class BikeRepository : IBikeRepository
     {
         using var connection = _db.CreateConnection();
         
-        // Bepaal BikeType en BatteryCapacity op basis van het concrete type
-        var bikeType = bike switch
+        // BUGFIX: Gebruik bike.Type property i.p.v. C# type checking
+        // Het formulier stuurt Type als string ("CityBike" of "ElectricBike")
+        // ASP.NET Model Binding maakt altijd een Bike object, geen subclass
+        var bikeType = bike.Type switch
         {
-            ElectricBike => "ElectricBike",
-            CityBike => "CityBike",
-            _ => "CityBike"
+            "ElectricBike" => "ElectricBike",
+            "CityBike" => "CityBike",
+            _ => "CityBike"  // Default naar CityBike als Type leeg is
         };
         
-        int? batteryCapacity = bike is ElectricBike eb ? eb.BatteryCapacityWh : null;
+        // BatteryCapacity: check of het een ElectricBike is (via Type property)
+        int? batteryCapacity = bike.Type == "ElectricBike" && bike is ElectricBike eb 
+            ? eb.BatteryCapacityWh 
+            : null;
         
         // INSERT query met LAST_INSERT_ID() voor MySQL om nieuwe ID te krijgen
         const string sql = @"
@@ -143,15 +148,18 @@ public class BikeRepository : IBikeRepository
     {
         using var connection = _db.CreateConnection();
         
-        // Bepaal BikeType en BatteryCapacity
-        var bikeType = bike switch
+        // BUGFIX: Gebruik bike.Type property i.p.v. C# type checking
+        var bikeType = bike.Type switch
         {
-            ElectricBike => "ElectricBike",
-            CityBike => "CityBike",
+            "ElectricBike" => "ElectricBike",
+            "CityBike" => "CityBike",
             _ => "CityBike"
         };
         
-        int? batteryCapacity = bike is ElectricBike eb ? eb.BatteryCapacityWh : null;
+        // BatteryCapacity: check via Type property string
+        int? batteryCapacity = bike.Type == "ElectricBike" && bike is ElectricBike eb 
+            ? eb.BatteryCapacityWh 
+            : null;
         
         // UPDATE query met WHERE clause voor specifieke fiets
         const string sql = @"
