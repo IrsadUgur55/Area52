@@ -1,0 +1,179 @@
+﻿@*
+    ============================================================================
+    HOME/INDEX.CSHTML - WELKOMSTPAGINA
+    ============================================================================
+    
+    Dit is de hoofdpagina (landing page) van de Area52 fietsverhuur applicatie.
+    Bezoekers zien deze pagina als eerste wanneer ze de website bezoeken.
+    
+    DOEL:
+    - Verwelkomen van bezoekers
+    - Overzicht geven van de diensten (stadsfietsen, e-bikes, verzekeringen)
+    - Duidelijke call-to-action knoppen voor navigatie
+    
+    DESIGN KEUZES:
+    - Hero section voor visuele impact
+    - Drie informatiekaarten voor overzicht van diensten
+    - Grote, duidelijke knoppen voor belangrijkste acties
+    
+    MEERTALIGHEID:
+    Alle tekst-elementen hebben data-translate attributen die verwijzen
+    naar keys in translations.js voor NL/DE/EN ondersteuning.
+    
+    Auteur:    Frontend Team - Area52
+    Versie:    1.0.0
+    Cursus:    HBO ICT - Fontys Hogescholen
+    ============================================================================
+*@
+
+@* 
+    ViewData["Title"] wordt gebruikt in _Layout.cshtml
+    om de paginatitel in de browser tab te tonen.
+*@
+@{
+    ViewData["Title"] = "Startpagina";
+}
+
+@* 
+    ==========================================================================
+    HERO SECTION
+    ==========================================================================
+    
+    De hero section is het eerste wat bezoekers zien.
+    Het bevat een welkomstbericht en de belangrijkste call-to-action knoppen.
+    
+    .hero-section class is gedefinieerd in site.css met:
+    - Subtiele gradient achtergrond
+    - Ruime padding
+    - Gecentreerde tekst
+*@
+<div class="hero-section">
+    @* 
+        WELKOMSTKOP
+        display-4: Bootstrap class voor extra grote tekst
+        data-translate: Verwijst naar "home.welcome" in translations.js
+        
+        De fallback tekst (Welkom bij Area52) wordt getoond als:
+        - JavaScript uitgeschakeld is
+        - Vertalingen nog niet geladen zijn
+    *@
+    <h1 class="display-4" data-translate="home.welcome">🚲 Welkom bij Area52</h1>
+    
+    @* 
+        ONDERTITEL / TAGLINE
+        .lead: Bootstrap class voor grotere paragraph tekst
+        Beschrijft kort wat het bedrijf aanbiedt
+    *@
+    <p class="lead" data-translate="home.subtitle">Uw premium fietsverhuurservice - Stadsfietsen & Elektrische fietsen beschikbaar</p>
+    
+    @* 
+        CALL-TO-ACTION KNOPPEN
+        ======================
+        
+        .btn-group-modern: Custom class voor flexbox layout met spacing
+        
+        KNOP TYPES (zie site.css voor styling):
+        - .btn-primary (blauw): Hoofdactie - Bekijk fietsen
+        - .btn-success (groen): Positieve actie - Nieuwe reservering
+        - .btn-secondary (grijs): Secundaire actie - Mijn reserveringen
+        
+        .btn-lg: Bootstrap large button voor betere zichtbaarheid
+        
+        ASP.NET TAG HELPERS:
+        - asp-controller: Specificeert de target controller
+        - asp-action: Specificeert de target action method
+        
+        Voorbeeld: asp-controller="Bike" asp-action="Index"
+        Genereert: href="/Bike" of href="/Bike/Index"
+    *@
+    <div class="btn-group-modern">
+        @* Knop naar Fietsen overzicht *@
+        <a class="btn btn-primary btn-lg" asp-controller="Bike" asp-action="Index" data-translate="home.btn.browse">
+            🚴 Bekijk Fietsen
+        </a>
+        
+        @* Knop naar Nieuwe Reservering formulier *@
+        <a class="btn btn-success btn-lg" asp-controller="Reservation" asp-action="Create" data-translate="home.btn.newres">
+            📅 Nieuwe Reservering
+        </a>
+        
+        @* Knop naar Reserveringen overzicht *@
+        <a class="btn btn-secondary btn-lg" asp-controller="Reservation" asp-action="Index" data-translate="home.btn.myres">
+            📋 Mijn Reserveringen
+        </a>
+    </div>
+</div>
+
+@* 
+    ==========================================================================
+    INFORMATIEKAARTEN SECTIE
+    ==========================================================================
+    
+    Drie kaarten die de diensten van Area52 presenteren.
+    
+    BOOTSTRAP GRID SYSTEEM:
+    - .row: Container voor grid kolommen
+    - .col-md-4: Op medium schermen (≥768px) neemt elke kaart 4/12 = 33.33% breedte
+    - .mb-4: margin-bottom van 1.5rem voor spacing
+    
+    Op kleine schermen (< 768px) stapelen de kaarten automatisch verticaal
+    omdat de default kolom breedte 100% is.
+*@
+<div class="row mt-4">
+    @* 
+        KAART 1: STADSFIETSEN
+        Presenteert de traditionele fietsen voor stadsgebruik
+    *@
+    <div class="col-md-4 mb-4">
+        @* 
+            .card-modern: Custom kaart styling (zie site.css)
+            - Witte achtergrond
+            - Afgeronde hoeken
+            - Subtiele schaduw
+            - Hover effect (lift)
+        *@
+        <div class="card-modern text-center">
+            @* 
+                ICOON
+                Grote emoji als visueel element
+                Inline styling voor snelle aanpassing van grootte en spacing
+            *@
+            <div style="font-size: 3rem; margin-bottom: 15px;">🚲</div>
+            
+            @* Kaart titel *@
+            <h4 data-translate="home.card.city.title">Stadsfietsen</h4>
+            
+            @* 
+                Kaart beschrijving
+                .text-muted: Bootstrap class voor grijze, gedempte tekst
+            *@
+            <p class="text-muted" data-translate="home.card.city.desc">Perfect voor stadsverkenning en dagelijks woon-werkverkeer</p>
+        </div>
+    </div>
+    
+    @* 
+        KAART 2: ELEKTRISCHE FIETSEN
+        Presenteert de e-bikes met elektrische ondersteuning
+    *@
+    <div class="col-md-4 mb-4">
+        <div class="card-modern text-center">
+            @* Bliksem emoji voor elektrisch *@
+            <div style="font-size: 3rem; margin-bottom: 15px;">⚡</div>
+            <h4 data-translate="home.card.electric.title">Elektrische Fietsen</h4>
+            <p class="text-muted" data-translate="home.card.electric.desc">Moeiteloos rijden met elektrische ondersteuning</p>
+        </div>
+    </div>
+    
+    @* 
+        KAART 3: VERZEKERINGEN
+        Presenteert de optionele verzekerings-services
+    *@
+    <div class="col-md-4 mb-4">
+        <div class="card-modern text-center">
+            @* Schild emoji voor bescherming/verzekering *@
+            <div style="font-size: 3rem; margin-bottom: 15px;">🛡️</div>
+            <h4 data-translate="home.card.insurance.title">Verzekeringen</h4>
+            <p class="text-muted" data-translate="home.card.insurance.desc">Rijd zorgeloos met onze dekkingsplannen</p>
+        </div>
+    </div>
+</div>

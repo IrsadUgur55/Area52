@@ -1,0 +1,33 @@
+# =============================================================================
+# DOCKER IGNORE - Bestanden die NIET in de Docker image komen
+# =============================================================================
+
+# Git
+.git
+.gitignore
+
+# Build outputs (worden opnieuw gebuild in Docker)
+**/bin/
+**/obj/
+
+# IDE
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Local settings (NOOIT in Docker image!)
+**/appsettings.json
+**/appsettings.Development.json
+secrets.json
+
+# Tests
+**/*Tests/
+**/*Test/
+
+# Documentation
+*.md
+LICENSE
+
+# Database scripts (niet nodig in runtime)
+Database/

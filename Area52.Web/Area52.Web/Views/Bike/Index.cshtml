@@ -1,0 +1,192 @@
+@*
+    ============================================================================
+    BIKE/INDEX.CSHTML - FIETSEN OVERZICHT
+    ============================================================================
+    
+    Deze view toont een overzicht van alle beschikbare fietsen in een tabel.
+    Gebruikers kunnen hier fietsen bekijken, bewerken of verwijderen.
+    
+    MODEL:
+    IEnumerable<Bike> - Een collectie van Bike objecten uit de database.
+    Het model wordt doorgegeven vanuit de BikeController.Index() action.
+    
+    FUNCTIONALITEIT:
+    - Tabel met alle fietsen (ID, type, prijs, aankoopdatum)
+    - Actie links per fiets (Details, Bewerken, Verwijderen)
+    - Knoppen voor nieuwe fiets en nieuwe reservering
+    
+    Auteur:    Frontend Team - Area52
+    Versie:    1.0.0
+    Cursus:    HBO ICT - Fontys Hogescholen
+    ============================================================================
+*@
+
+@* 
+    MODEL DIRECTIVE
+    Specificeert het type data dat deze view ontvangt.
+    IEnumerable<Bike> betekent: een itereerbare collectie van Bike objecten.
+    
+    Dit maakt strongly-typed views mogelijk:
+    - IntelliSense ondersteuning
+    - Compile-time type checking
+    - Geen runtime type conversie fouten
+*@
+@model IEnumerable<Bike>
+
+@* 
+    ==========================================================================
+    PAGE HEADER
+    ==========================================================================
+    
+    .page-header: Custom flex container (zie site.css)
+    - Links: Paginatitel
+    - Rechts: Actieknoppen
+    
+    justify-content: space-between zorgt voor de verdeling.
+*@
+<div class="page-header">
+    @* 
+        PAGINATITEL
+        data-translate verwijst naar "bikes.title" in translations.js
+    *@
+    <h1 data-translate="bikes.title">🚲 Beschikbare Fietsen</h1>
+    
+    @* 
+        ACTIE KNOPPEN
+        .page-actions: Container met flex gap voor spacing
+    *@
+    <div class="page-actions">
+        @* 
+            NIEUWE FIETS KNOP
+            asp-action="Create" navigeert naar BikeController.Create()
+        *@
+        <a class="btn btn-primary" asp-action="Create" data-translate="bikes.btn.new">+ Nieuwe Fiets</a>
+        
+        @* 
+            NIEUWE RESERVERING KNOP
+            asp-controller="Reservation" wisselt naar ReservationController
+        *@
+        <a class="btn btn-success" asp-controller="Reservation" asp-action="Create" data-translate="bikes.btn.reserve">📅 Nieuwe Reservering</a>
+    </div>
+</div>
+
+@* 
+    ==========================================================================
+    FIETSEN TABEL
+    ==========================================================================
+    
+    .table-modern: Custom tabel styling (zie site.css)
+    - Gradient header
+    - Hover effecten op rijen
+    - Afgeronde hoeken
+    - Schaduw effect
+    
+    HTML TABEL STRUCTUUR:
+    - <thead>: Table header met kolomtitels
+    - <tbody>: Table body met data rijen
+    - <tr>: Table row
+    - <th>: Table header cell
+    - <td>: Table data cell
+*@
+<table class="table-modern">
+    @* 
+        TABEL HEADER
+        Definieert de kolomtitels
+        data-translate attributen voor meertalige kolomnamen
+    *@
+    <thead>
+        <tr>
+            <th data-translate="bikes.table.id">ID</th>
+            <th data-translate="bikes.table.type">Type</th>
+            <th data-translate="bikes.table.price">Dagprijs</th>
+            <th data-translate="bikes.table.date">Aankoopdatum</th>
+            <th data-translate="bikes.table.actions">Acties</th>
+        </tr>
+    </thead>
+    
+    @* 
+        TABEL BODY
+        Itereert over alle fietsen in het model
+    *@
+    <tbody>
+    @* 
+        FOREACH LOOP
+        Razor foreach syntax om door de collectie te itereren.
+        Voor elke Bike in Model wordt een tabelrij gegenereerd.
+        
+        De variable 'bike' is beschikbaar binnen het foreach blok
+        en bevat de huidige Bike instantie.
+    *@
+    @foreach (var bike in Model)
+    {
+        @* Eén tabelrij per fiets *@
+        <tr>
+            @* 
+                ID KOLOM
+                .badge-modern .badge-primary: Gestileerde badge voor ID weergave
+                @bike.BikeId: Output van de BikeId property
+            *@
+            <td><span class="badge-modern badge-primary">#@bike.BikeId</span></td>
+            
+            @* 
+                TYPE KOLOM
+                Conditionele weergave gebaseerd op bike.Type property.
+                
+                @if ... else: Razor conditionele statement
+                Toont verschillende emoji's en tekst voor elk fietstype.
+            *@
+            <td>
+                @if (bike.Type == "ElectricBike")
+                {
+                    @* Elektrische fiets met bliksem emoji *@
+                    <span data-translate="bikes.type.electric">⚡ Elektrische Fiets</span>
+                }
+                else
+                {
+                    @* Stadsfiets met fiets emoji *@
+                    <span data-translate="bikes.type.city">🚲 Stadsfiets</span>
+                }
+            </td>
+            
+            @* 
+                PRIJS KOLOM
+                @bike.DayPrice: Decimal waarde van de dagprijs
+                <strong>: Bold tekst voor nadruk
+                "/dag" suffix voor duidelijkheid
+            *@
+            <td><strong>€@bike.DayPrice</strong><span data-translate="bikes.perday">/dag</span></td>
+            
+            @* 
+                DATUM KOLOM
+                ToShortDateString(): Formatteert DateTime naar korte datum
+                Het exacte formaat hangt af van de server cultuur (bijv. dd-MM-yyyy)
+            *@
+            <td>@bike.PurchaseDate.ToShortDateString()</td>
+            
+            @* 
+                ACTIES KOLOM
+                Bevat links naar detail, edit en delete pagina's.
+                
+                asp-route-id="@bike.BikeId": Voegt de fiets ID toe aan de URL
+                Genereert bijvoorbeeld: /Bike/Details/5
+            *@
+            <td>
+                @* 
+                    DETAILS LINK
+                    .action-link: Custom link styling
+                *@
+                <a class="action-link" asp-action="Details" asp-route-id="@bike.BikeId" data-translate="bikes.action.details">Details</a>
+                
+                @* EDIT LINK *@
+                <a class="action-link" asp-action="Edit" asp-route-id="@bike.BikeId" data-translate="bikes.action.edit">Bewerken</a>
+                
+                @* 
+                    DELETE LINK
+                    .delete class: Speciale hover styling (rood) voor waarschuwing
+                *@
+                <a class="action-link delete" asp-action="Delete" asp-route-id="@bike.BikeId" data-translate="bikes.action.delete">Verwijderen</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

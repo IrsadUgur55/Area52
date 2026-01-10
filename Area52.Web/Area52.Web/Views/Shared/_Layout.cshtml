@@ -1,0 +1,300 @@
+﻿@*
+    ============================================================================
+    _LAYOUT.CSHTML - MASTER LAYOUT TEMPLATE
+    ============================================================================
+    
+    Dit is het master layout-bestand voor de Area52 webapplicatie.
+    Alle andere views worden binnen dit template gerenderd via RenderBody().
+    
+    RAZOR SYNTAX:
+    - Code blokken: accolades met code
+    - Variabele output: at-symbool gevolgd door variabele naam
+    - Commentaar: at-symbool met sterretjes
+    - Tag Helpers: asp-* attributen die door ASP.NET Core worden verwerkt
+    
+    STRUCTUUR:
+    1. HTML Head met meta tags en stylesheet includes
+    2. Navigation bar met logo en menu
+    3. Language switcher voor meertalige ondersteuning
+    4. Main content area (RenderBody)
+    5. Footer met copyright
+    6. JavaScript includes
+    
+    Auteur:    Frontend Team - Area52
+    Versie:    1.0.0
+    Datum:     Januari 2026
+    Cursus:    HBO ICT - Fontys Hogescholen
+    ============================================================================
+*@
+
+@* 
+    DOCTYPE DECLARATIE
+    Geeft aan dat dit een HTML5 document is.
+    Dit is verplicht en moet altijd de eerste regel zijn.
+*@
+<!DOCTYPE html>
+
+@* 
+    HTML ELEMENT
+    lang="nl" geeft de standaardtaal van de pagina aan voor:
+    - Zoekmachines (SEO)
+    - Screenreaders (toegankelijkheid)
+    - Browser spellcheck
+*@
+<html lang="nl">
+
+<head>
+    @* 
+        META CHARSET
+        UTF-8 ondersteunt vrijwel alle karakters uit alle talen,
+        inclusief speciale tekens zoals €, ß, ë, etc.
+    *@
+    <meta charset="utf-8" />
+    
+    @* 
+        VIEWPORT META TAG
+        Essentieel voor responsive design op mobiele apparaten.
+        - width=device-width: De breedte past zich aan het apparaat aan
+        - initial-scale=1.0: Geen zoom bij eerste laden
+    *@
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    @* 
+        PAGINA TITEL
+        ViewData["Title"] wordt ingesteld in elke individuele view.
+        De titel verschijnt in de browser tab en is belangrijk voor SEO.
+    *@
+    <title>@ViewData["Title"] - Area52</title>
+    
+    @* 
+        BOOTSTRAP CSS
+        Bootstrap is een populair CSS framework dat responsive grid,
+        componenten en utilities biedt. We gebruiken versie 5.x.
+    *@
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    
+    @* 
+        CUSTOM CSS
+        Ons eigen stylesheet met het Area52 thema.
+        asp-append-version="true" voegt een versie-hash toe aan de URL
+        om browser caching problemen te voorkomen bij updates.
+    *@
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    
+    @* 
+        GENERATED STYLES
+        Automatisch gegenereerde styles door ASP.NET Core.
+        Bevat styles van Razor Class Libraries indien gebruikt.
+    *@
+    <link rel="stylesheet" href="~/Area52.Web.styles.css" asp-append-version="true" />
+    
+    @* 
+        GOOGLE FONTS - INTER
+        Inter is een moderne, goed leesbare sans-serif font.
+        We laden verschillende font-weights voor variatie in typografie.
+    *@
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    @* 
+        =======================================================================
+        HEADER SECTIE
+        =======================================================================
+        Bevat de navigatiebalk die op elke pagina zichtbaar is.
+    *@
+    <header>
+        @* 
+            BOOTSTRAP NAVBAR COMPONENT
+            - navbar: Basis navbar styling
+            - navbar-expand-sm: Collapse hamburger menu op schermen kleiner dan 576px
+            - navbar-modern: Onze custom styling class (zie site.css)
+            - box-shadow: Subtiele schaduw onder de navbar
+            - mb-4: Bootstrap margin-bottom van 1.5rem
+        *@
+        <nav class="navbar navbar-expand-sm navbar-modern box-shadow mb-4">
+            <div class="container-fluid">
+                
+                @* 
+                    NAVBAR BRAND (LOGO)
+                    asp-controller en asp-action zijn Tag Helpers die automatisch
+                    de juiste URL genereren naar de HomeController Index action.
+                    Dit is veiliger dan hardcoded URLs omdat het meeschaalt
+                    met routing wijzigingen.
+                *@
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    @* Logo afbeelding met inline styling voor snelle aanpassing *@
+                    <img src="~/images/logo.png" alt="Area52 Logo" style="height: 40px; margin-right: 10px; border-radius: 6px;" />
+                    Area52
+                </a>
+                
+                @* 
+                    HAMBURGER MENU TOGGLE BUTTON
+                    Zichtbaar op kleine schermen (< 576px).
+                    data-bs-* attributen zijn Bootstrap 5 JavaScript hooks.
+                *@
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                @* 
+                    COLLAPSIBLE NAVBAR CONTENT
+                    Deze sectie wordt verborgen/getoond op kleine schermen.
+                    d-sm-inline-flex: Display inline-flex vanaf small breakpoint
+                    justify-content-between: Verdeel ruimte tussen menu en taalswitch
+                *@
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    
+                    @* 
+                        HOOFDNAVIGATIE LINKS
+                        flex-grow-1: Neem alle beschikbare ruimte in
+                        
+                        data-translate attribuut: Wordt gebruikt door translations.js
+                        om de tekst te vervangen op basis van de gekozen taal.
+                    *@
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            @* Link naar Home pagina *@
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index" data-translate="nav.home">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            @* Link naar Fietsen overzicht *@
+                            <a class="nav-link" asp-area="" asp-controller="Bike" asp-action="Index" data-translate="nav.bikes">Fietsen</a>
+                        </li>
+                        <li class="nav-item">
+                            @* Link naar Reserveringen overzicht *@
+                            <a class="nav-link" asp-area="" asp-controller="Reservation" asp-action="Index" data-translate="nav.reservations">Reserveringen</a>
+                        </li>
+                    </ul>
+                    
+                    @* 
+                        =======================================================
+                        LANGUAGE SWITCHER COMPONENT
+                        =======================================================
+                        
+                        Knoppen om tussen talen te wisselen.
+                        We gebruiken taalcodes (NL/DE/EN) in plaats van vlaggen
+                        omdat talen door meerdere landen worden gesproken:
+                        - Nederlands: Nederland, België
+                        - Duits: Duitsland, Oostenrijk, Zwitserland
+                        - Engels: UK, VS, Australië, etc.
+                        
+                        onclick="setLanguage('xx')" roept de JavaScript functie aan
+                        die gedefinieerd is in translations.js.
+                        
+                        title attribuut toont een tooltip bij hover met extra info.
+                    *@
+                    <div class="language-switcher">
+                        @* Nederlandse taalknop *@
+                        <button class="lang-btn" data-lang="nl" onclick="setLanguage('nl')" title="Nederlands / Vlaams">
+                            <span class="lang-code">NL</span>
+                        </button>
+                        
+                        @* Duitse taalknop *@
+                        <button class="lang-btn" data-lang="de" onclick="setLanguage('de')" title="Deutsch / Österreichisch / Schweizerdeutsch">
+                            <span class="lang-code">DE</span>
+                        </button>
+                        
+                        @* Engelse taalknop *@
+                        <button class="lang-btn" data-lang="en" onclick="setLanguage('en')" title="English (UK/US/AU)">
+                            <span class="lang-code">EN</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    @* 
+        =======================================================================
+        MAIN CONTENT AREA
+        =======================================================================
+        
+        De container class van Bootstrap centreert de content en geeft
+        een maximale breedte voor betere leesbaarheid.
+        
+        role="main" is een ARIA landmark voor screenreaders.
+        pb-3: Bootstrap padding-bottom van 1rem.
+    *@
+    <div class="container">
+        <main role="main" class="pb-3">
+            @* 
+                @RenderBody()
+                ==============
+                Dit is het cruciale punt waar de content van child views
+                wordt geïnjecteerd. Elke view die dit layout gebruikt
+                (via _ViewStart.cshtml) wordt hier gerenderd.
+                
+                Bijvoorbeeld: Als de gebruiker /Bike/Index bezoekt,
+                wordt de content van Views/Bike/Index.cshtml hier geplaatst.
+            *@
+            @RenderBody()
+        </main>
+    </div>
+
+    @* 
+        =======================================================================
+        FOOTER SECTIE
+        =======================================================================
+        
+        De footer is sticky aan de onderkant van de pagina.
+        data-translate wordt gebruikt voor meertalige copyright tekst.
+    *@
+    <footer class="footer">
+        <div class="container" data-translate="footer.copyright">
+            &copy; 2026 - Team PLACEHOLDERS - Area52 Fietsverhuur
+        </div>
+    </footer>
+    
+    @* 
+        =======================================================================
+        JAVASCRIPT INCLUDES
+        =======================================================================
+        
+        Scripts worden onderaan de body geplaatst zodat:
+        1. De pagina content eerst laadt (betere perceived performance)
+        2. De DOM beschikbaar is wanneer scripts uitvoeren
+    *@
+    
+    @* 
+        JQUERY
+        JavaScript library voor DOM manipulatie.
+        Vereist door sommige Bootstrap componenten.
+    *@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    
+    @* 
+        BOOTSTRAP JAVASCRIPT BUNDLE
+        Bevat alle Bootstrap JavaScript componenten (dropdowns, modals, etc.)
+        plus Popper.js voor tooltips en popovers.
+    *@
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    
+    @* 
+        CUSTOM JAVASCRIPT
+        Ons eigen JavaScript bestand voor algemene functionaliteit.
+    *@
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    
+    @* 
+        TRANSLATIONS MODULE
+        Het meertalige systeem dat vertalingen toepast op data-translate elementen.
+        Moet NA de DOM geladen is, daarom onderaan de body.
+    *@
+    <script src="~/js/translations.js" asp-append-version="true"></script>
+    
+    @* 
+        @await RenderSectionAsync()
+        ===========================
+        Hiermee kunnen child views extra scripts toevoegen.
+        required: false betekent dat de sectie optioneel is.
+        
+        Voorbeeld in een child view:
+        @section Scripts {
+            <script>// extra scripts</script>
+        }
+    *@
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,35 @@
+@model Bike
+
+<div class="page-header">
+    <h1 data-translate="bikes.create.title">🚲 Nieuwe Fiets Toevoegen</h1>
+</div>
+
+<div class="card-modern" style="max-width: 500px;">
+    <form asp-action="Create" method="post">
+        <div class="mb-3">
+            <label asp-for="Type" class="form-label" data-translate="bikes.create.type">Fietstype</label>
+            <select asp-for="Type" class="form-select">
+                <option value="CityBike" data-translate="bikes.create.option.city">🚲 Stadsfiets</option>
+                <option value="ElectricBike" data-translate="bikes.create.option.electric">⚡ Elektrische Fiets</option>
+            </select>
+            <span asp-validation-for="Type" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="DayPrice" class="form-label" data-translate="bikes.create.price">Dagprijs (€)</label>
+            <input asp-for="DayPrice" type="number" step="0.01" class="form-control" placeholder="bijv. 15.00" />
+            <span asp-validation-for="DayPrice" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="PurchaseDate" class="form-label" data-translate="bikes.create.date">Aankoopdatum</label>
+            <input asp-for="PurchaseDate" type="date" class="form-control" />
+            <span asp-validation-for="PurchaseDate" class="text-danger"></span>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 24px;">
+            <button type="submit" class="btn btn-success" data-translate="bikes.create.save">✓ Fiets Opslaan</button>
+            <a asp-action="Index" class="btn btn-secondary" data-translate="bikes.create.back">← Terug naar Overzicht</a>
+        </div>
+    </form>
+</div>

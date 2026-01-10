@@ -1,0 +1,256 @@
+@model IEnumerable<Area52.Web.Models.ReservationOverviewItem>
+
+<div class="page-header">
+    <h1 data-translate="res.title">📋 Mijn Reserveringen</h1>
+    <div class="page-actions">
+        <a class="btn btn-success" asp-action="Create" data-translate="res.btn.new">+ Nieuwe Reservering</a>
+        <a class="btn btn-secondary" asp-controller="Bike" asp-action="Index" data-translate="res.btn.bikes">🚲 Bekijk Fietsen</a>
+    </div>
+</div>
+
+<table class="table-modern" id="reservations-table">
+    <thead>
+        <tr>
+            <th class="sortable" data-sort="number" data-column="0" data-translate="res.table.id">ID ⇅</th>
+            <th class="sortable" data-sort="string" data-column="1" data-translate="res.table.bike">Fiets ⇅</th>
+            <th class="sortable" data-sort="date" data-column="2" data-translate="res.table.start">Startdatum ⇅</th>
+            <th class="sortable" data-sort="number" data-column="3" data-translate="res.table.duration">Duur ⇅</th>
+            <th data-translate="res.table.options">Opties</th>
+            <th class="sortable" data-sort="price" data-column="5" data-translate="res.table.total">Totaalprijs ⇅</th>
+            <th data-translate="res.table.actions">Acties</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var r in Model)
+    {
+        <tr>
+            <td><span class="badge-modern badge-primary">#@r.ReservationId</span></td>
+            <td>
+                @if (r.BikeType == "ElectricBike")
+                {
+                    <span data-translate="bikes.type.electric">⚡ Elektrische Fiets</span>
+                }
+                else
+                {
+                    <span data-translate="bikes.type.city">🚲 Stadsfiets</span>
+                }
+                <small class="text-muted">(#@r.BikeId)</small>
+            </td>
+            <td>@r.StartDate.ToShortDateString()</td>
+            <td><span class="badge-modern badge-success">@r.Days <span data-translate="res.days">dagen</span></span></td>
+            <td>
+                @if (string.IsNullOrEmpty(r.OptionsText) || r.OptionsText == "-")
+                {
+                    <span>-</span>
+                }
+                else
+                {
+                    @foreach (var option in r.OptionsText.Split(", "))
+                    {
+                        @if (option == "Damage insurance")
+                        {
+                            <span class="badge-modern badge-info" data-translate="options.insurance">🛡️ Verzekering</span>
+                        }
+                        else if (option == "Assistance")
+                        {
+                            <span class="badge-modern badge-info" data-translate="options.assistance">📞 Pechhulp</span>
+                        }
+                        else
+                        {
+                            <span class="badge-modern badge-info">@option</span>
+                        }
+                    }
+                }
+            </td>
+            <td><strong style="color: var(--accent-green);">€@r.TotalPrice</strong></td>
+            <td>
+                <a class="action-link" asp-action="Details" asp-route-id="@r.ReservationId" data-translate="res.action.details">Bekijk Details</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@* 
+================================================================================
+JAVASCRIPT TABLE SORTING
+================================================================================
+Client-side sorteer functionaliteit voor de reserveringen tabel.
+Werkt zonder server requests - pure JavaScript DOM manipulatie.
+
+WERKING:
+1. Klik op een kolom header met "sortable" class
+2. JavaScript leest alle rijen uit de tbody
+3. Sorteert op basis van data-sort type (number, string, date, price)
+4. Herordent de rijen in de DOM
+5. Toont ↑ of ↓ indicator
+
+VOORDELEN:
+- Geen C# code wijzigingen nodig
+- Geen extra HTTP requests
+- Instant sorting (snelle UX)
+- Werkt ook offline
+
+NADELEN:
+- Bij veel data (1000+ rijen) kan het traag worden
+- Server-side paging zou dan beter zijn
+================================================================================
+*@
+
+<script>
+(function() {
+    // =========================================================================
+    // TABLE SORT CONFIGURATIE
+    // =========================================================================
+    
+    const table = document.getElementById('reservations-table');
+    if (!table) return;
+    
+    const headers = table.querySelectorAll('th.sortable');
+    const tbody = table.querySelector('tbody');
+    
+    // Huidige sorteer staat bijhouden
+    let currentSort = { column: null, ascending: true };
+    
+    // =========================================================================
+    // EVENT LISTENERS TOEVOEGEN AAN HEADERS
+    // =========================================================================
+    
+    headers.forEach((header) => {
+        header.style.cursor = 'pointer';
+        header.style.userSelect = 'none';
+        
+        header.addEventListener('click', () => {
+            // BUGFIX: Gebruik data-column attribuut voor echte kolom index
+            // Dit is nodig omdat niet alle kolommen sorteerbaar zijn (Opties, Acties)
+            const columnIndex = parseInt(header.dataset.column, 10);
+            sortTable(columnIndex, header.dataset.sort);
+            updateSortIndicators(header);
+        });
+    });
+    
+    // =========================================================================
+    // HOOFD SORTEER FUNCTIE
+    // =========================================================================
+    
+    function sortTable(columnIndex, sortType) {
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        
+        // Toggle richting als zelfde kolom wordt geklikt
+        if (currentSort.column === columnIndex) {
+            currentSort.ascending = !currentSort.ascending;
+        } else {
+            currentSort.column = columnIndex;
+            currentSort.ascending = true;
+        }
+        
+        // Sorteer de rijen
+        rows.sort((a, b) => {
+            const cellA = a.cells[columnIndex];
+            const cellB = b.cells[columnIndex];
+            
+            let valueA = getCellValue(cellA, sortType);
+            let valueB = getCellValue(cellB, sortType);
+            
+            let comparison = 0;
+            
+            switch (sortType) {
+                case 'number':
+                    comparison = valueA - valueB;
+                    break;
+                case 'date':
+                    comparison = valueA - valueB;
+                    break;
+                case 'price':
+                    comparison = valueA - valueB;
+                    break;
+                case 'string':
+                default:
+                    comparison = valueA.localeCompare(valueB, 'nl');
+                    break;
+            }
+            
+            return currentSort.ascending ? comparison : -comparison;
+        });
+        
+        // Rijen opnieuw toevoegen aan tbody (in gesorteerde volgorde)
+        rows.forEach(row => tbody.appendChild(row));
+    }
+    
+    // =========================================================================
+    // WAARDE EXTRACTIE UIT CEL
+    // =========================================================================
+    
+    function getCellValue(cell, sortType) {
+        const text = cell.textContent.trim();
+        
+        switch (sortType) {
+            case 'number':
+                // Haal nummer uit tekst (bijv. "#123" -> 123, "5 dagen" -> 5)
+                const num = text.match(/\d+/);
+                return num ? parseInt(num[0], 10) : 0;
+                
+            case 'date':
+                // Parse datum (DD-MM-YYYY of andere formaten)
+                const parts = text.split(/[-/.]/);
+                if (parts.length === 3) {
+                    // Probeer DD-MM-YYYY formaat
+                    const day = parseInt(parts[0], 10);
+                    const month = parseInt(parts[1], 10) - 1;
+                    const year = parseInt(parts[2], 10);
+                    return new Date(year, month, day).getTime();
+                }
+                return new Date(text).getTime() || 0;
+                
+            case 'price':
+                // Haal prijs uit tekst (bijv. "€123.45" -> 123.45)
+                const price = text.replace(/[€\s]/g, '').replace(',', '.');
+                return parseFloat(price) || 0;
+                
+            case 'string':
+            default:
+                return text.toLowerCase();
+        }
+    }
+    
+    // =========================================================================
+    // VISUELE FEEDBACK - SORTEER INDICATORS
+    // =========================================================================
+    
+    function updateSortIndicators(activeHeader) {
+        // Reset alle headers
+        headers.forEach(h => {
+            const text = h.textContent.replace(/[↑↓⇅]/g, '').trim();
+            h.textContent = text + ' ⇅';
+            h.classList.remove('sort-asc', 'sort-desc');
+        });
+        
+        // Update actieve header
+        const text = activeHeader.textContent.replace(/[↑↓⇅]/g, '').trim();
+        if (currentSort.ascending) {
+            activeHeader.textContent = text + ' ↑';
+            activeHeader.classList.add('sort-asc');
+        } else {
+            activeHeader.textContent = text + ' ↓';
+            activeHeader.classList.add('sort-desc');
+        }
+    }
+})();
+</script>
+
+<style>
+/* Sorteerbare kolom headers */
+th.sortable {
+    transition: background-color 0.2s ease;
+}
+
+th.sortable:hover {
+    background-color: rgba(52, 152, 219, 0.1);
+}
+
+th.sort-asc,
+th.sort-desc {
+    background-color: rgba(52, 152, 219, 0.15);
+    color: var(--primary-color);
+}
+</style>

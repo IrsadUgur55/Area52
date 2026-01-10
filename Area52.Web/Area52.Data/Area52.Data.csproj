@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+  =============================================================================
+  AREA52 DATA LAYER - PROJECT CONFIGURATIE
+  =============================================================================
+  Dit is de data layer project file voor de Area52 applicatie.
+  
+  MySqlConnector: Officiële .NET connector voor MySQL databases
+  - High-performance async MySQL driver
+  - Ondersteunt connection pooling
+  - Geschikt voor cloud hosting scenarios
+  =============================================================================
+  -->
+
+  <ItemGroup>
+    <ProjectReference Include="..\Area52.Domain\Area52.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- MySqlConnector: Vervangt Microsoft.Data.SqlClient voor MySQL database -->
+    <PackageReference Include="MySqlConnector" Version="2.3.7" />
+    <!-- Dapper: Micro-ORM voor eenvoudige database queries -->
+    <PackageReference Include="Dapper" Version="2.1.35" />
+  </ItemGroup>
+
+  <ItemGroup>
+  <FrameworkReference Include="Microsoft.AspNetCore.App" />
+</ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>
