@@ -18,9 +18,9 @@ RUN dotnet --version
 # Restore NuGet packages
 RUN dotnet restore "Area52.sln"
 
-# Build en publish
-WORKDIR "/src/Area52.Web"
-RUN dotnet publish -c Release -o /app/publish --no-restore
+# Build en publish - specificeer exact welk project
+WORKDIR "/src"
+RUN dotnet publish "Area52.Web/Area52.Web.csproj" -c Release -o /app/publish --no-restore
 
 # Stage 2: Runtime (kleinere image)
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
