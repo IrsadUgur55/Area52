@@ -1,37 +1,3 @@
-# Area52 - Fiets Verhuur Applicatie
-
-> 🚲 ASP.NET Core MVC applicatie voor fietsverhuur met MySQL database ondersteuning
-
----
-
-## � SECURITY - LEES DIT EERST!
-
-> ⚠️ **WAARSCHUWING: NOOIT wachtwoorden committen naar git!**
-
-### Wat je NIET moet doen:
-```json
-// ❌ FOUT - Dit NOOIT committen!
-"DefaultConnection": "Server=81.173.3.59;Password=MijnWachtwoord123;"
-```
-
-### Wat je WEL moet doen:
-1. **Kopieer** `appsettings.template.json` naar `appsettings.json`
-2. **Vul** de juiste credentials in (vraag aan teamlead)
-3. **appsettings.json staat in .gitignore** - wordt NIET gecommit
-
-```bash
-# appsettings.json aanmaken vanuit template
-cp Area52.Web/appsettings.template.json Area52.Web/appsettings.json
-# Daarna credentials invullen in appsettings.json
-```
-
-### Waarom is dit belangrijk?
-- Wachtwoorden op GitHub = **beveiligingslek**
-- Hackers scannen GitHub automatisch op credentials
-- Zelfs als je het later verwijdert, staat het in de **git history**!
-
----
-
 ## 📋 Inhoudsopgave
 
 1. [Overzicht Wijzigingen](#overzicht-wijzigingen)
