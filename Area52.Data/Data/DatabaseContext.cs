@@ -41,27 +41,15 @@ namespace Area52.Data.Data;
 /// </summary>
 public class DatabaseContext
 {
-    // Private field voor de connection string (encapsulation principe)
+    // Private field voor de connection string 
     private readonly string _connectionString;
 
-    /// <summary>
-    /// Constructor met Dependency Injection van IConfiguration.
-    /// Haalt de connection string op uit de applicatie configuratie.
-    /// </summary>
-    /// <param name="configuration">IConfiguration instantie geïnjecteerd door DI container</param>
-    /// <exception cref="InvalidOperationException">Wordt gegooid als connection string niet gevonden is</exception>
     public DatabaseContext(IConfiguration configuration)
     {
         // Null-coalescing throw operator: gooi exception als connection string null is
         _connectionString = configuration.GetConnectionString("DefaultConnection")
             ?? throw new InvalidOperationException("Connection string 'DefaultConnection' niet gevonden in appsettings.json.");
     }
-
-    /// <summary>
-    /// Factory method die een nieuwe MySQL database connectie aanmaakt.
-    /// Retourneert IDbConnection interface voor loose coupling.
-    /// </summary>
-    /// <returns>IDbConnection instantie (MySqlConnection) voor database operaties</returns>
     public IDbConnection CreateConnection()
     {
         // MySqlConnection implementeert IDbConnection interface
